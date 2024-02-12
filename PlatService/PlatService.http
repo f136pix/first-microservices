@@ -1,0 +1,12 @@
+@PlatService_HostAddress = http://localhost:5246
+
+GET {{PlatService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+ 
+
+
+
+
