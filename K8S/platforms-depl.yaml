@@ -17,7 +17,7 @@ spec:
                   image: f136pix/platservice:latest
 ---
 # ClusterIp 
-# assigns a internal ip inside of the kubernetes container for the service
+# assigns a internal ip inside of the kubernetes container for access
 apiVersion: v1
 kind: Service
 metadata:
