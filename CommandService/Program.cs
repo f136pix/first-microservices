@@ -15,7 +15,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.MapControllers(); // maps our controllers to the http req
 
 app.Run();

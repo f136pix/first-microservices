@@ -16,7 +16,7 @@ namespace PlatformService.Data
         {
             if (!context.Platforms.Any())
             {
-                Console.WriteLine("--> APP V1 <--");
+                Console.WriteLine("--> APP V2 <--");
                 Console.WriteLine("--> Seeding data <--");
                 context.Platforms.AddRange(
                     new Platform() { Name = "DotNET", Publisher = "Microsoft", Cost = "Free" },
