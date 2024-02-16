@@ -9,10 +9,10 @@ namespace PlatService.Profiles
         public PlatformsProfile()
         {
             // source  -> target
-            // source : platform model
-            // target : desired dto
+            // source : entry value 
+            // target : mapped/ formated value
             CreateMap<Platform, PlatformReadDto>();
-            CreateMap<PlatformCreateDto,Platform>();
+            CreateMap<PlatformCreateDto,Platform>(); // used in create platform / recieve a DTO and map it to a platform
         } 
     }
 }

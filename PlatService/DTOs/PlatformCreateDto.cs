@@ -11,6 +11,6 @@ namespace PlatService.DTOs
         public string publisher { get; set; }
         
         [Required] 
-        public string Cost { get; set; }
+        public string cost { get; set; }
     }
 }

@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment       
+metadata: 
+    name: platforms-depl
+spec:
+    replicas: 1
+    selector: 
+        matchLabels:
+            app: platformservice
+    template: 
+        metadata: 
+            labels:
+                app: platformservice
+        spec:
+            containers:
+                - name: platformservice
+                  image: f136pix/platservice:latest
+---
+# ClusterIp 
+# assigns a internal ip inside of the kubernetes container for the service
+apiVersion: v1
+kind: Service
+metadata:
+    name: platforms-clusterip-srv
+spec:
+    type: ClusterIP
+    selector:
+        app: platformservice  
+    ports:
+    - name:  platformservice
+      protocol: TCP
+      targetPort: 80
+      port: 80
