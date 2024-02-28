@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PlatformService.Data;
 using PlatformService.Models;
 using PlatformService.SyncDataServices.Http;
+using PlatService.AsyncDataServices.MessageBus;
 using PlatService.DTOs;
 
 namespace PlatformService.Controllers
@@ -15,13 +16,20 @@ namespace PlatformService.Controllers
         private readonly IPlatformRepo _repository;
         private readonly IMapper _mapper;
         private readonly ICommandDataClient _commandDataClient;
+        private readonly IMessageBusClient _messageBusClient;
 
         // autowired
-        public PlatformsController(IPlatformRepo repository, IMapper mapper, ICommandDataClient commandDataClient)
+        public PlatformsController(
+            IPlatformRepo repository,
+            IMapper mapper,
+            ICommandDataClient commandDataClient,
+            IMessageBusClient messageBusClient
+        )
         {
             _repository = repository;
             _mapper = mapper;
             _commandDataClient = commandDataClient;
+            _messageBusClient = messageBusClient;
         }
 
         [HttpGet]
@@ -54,19 +62,32 @@ namespace PlatformService.Controllers
             // transform PlatformModel in a PlatformReadDto
             var platformReadDto = _mapper.Map<PlatformReadDto>(platformModel);
 
+            // send sync message
             try
             {
                 await _commandDataClient.sendPlatformToCommand(platformReadDto);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                Console.WriteLine($"--> Error sending HTTP synchronous req {e.Message}");
+                Console.WriteLine($"--> Error sending HTTP synchronous req : {e.Message}");
             }
-            
-            Console.WriteLine(platformReadDto);
-             return CreatedAtRoute(nameof(GetPlatformById), new { id = platformReadDto.id },
-             platformReadDto); // returning the created platform navigation in headers
 
+            // send async message
+            try
+            {
+                var platformPublishedDto = _mapper.Map<PlatformPublishDto>(platformReadDto);
+                platformPublishedDto.Event = "Platform_Published";
+                _messageBusClient.PublishNewPlatform(platformPublishedDto);
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine($"--> Error sending asyncronous req : {e.Message}");
+            }
+
+            Console.WriteLine(platformReadDto);
+            return CreatedAtRoute(nameof(GetPlatformById), new { id = platformReadDto.id },
+                platformReadDto); // returning the created platform navigation in headers
         }
     }
 }

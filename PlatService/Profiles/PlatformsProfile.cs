@@ -13,6 +13,7 @@ namespace PlatService.Profiles
             // target : mapped/ formated value
             CreateMap<Platform, PlatformReadDto>();
             CreateMap<PlatformCreateDto,Platform>(); // used in create platform / recieve a DTO and map it to a platform
+            CreateMap<PlatformReadDto,PlatformPublishDto>();
         } 
     }
 }
