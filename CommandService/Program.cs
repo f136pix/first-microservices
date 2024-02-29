@@ -1,4 +1,6 @@
+using CommandService.AsyncDataServices;
 using CommandService.Data;
+using CommandService.EventProcessing;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +13,8 @@ builder.Services.AddScoped<ICommandRepo, CommandRepo>(); // whenever a component
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());  // automapper
 builder.Services.AddControllers(); // add our controllers to our services injector
 builder.Services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("InMemory")); // db
-
+builder.Services.AddSingleton<IEventProcessor, EventProcessor>();
+builder.Services.AddHostedService<MessageBusSubscriber>(); // rabbitMq listener 
 
 var app = builder.Build();
 

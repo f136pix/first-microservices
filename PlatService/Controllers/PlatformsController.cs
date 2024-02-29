@@ -62,7 +62,7 @@ namespace PlatformService.Controllers
             // transform PlatformModel in a PlatformReadDto
             var platformReadDto = _mapper.Map<PlatformReadDto>(platformModel);
 
-            // send sync message
+            // send sync http message
             try
             {
                 await _commandDataClient.sendPlatformToCommand(platformReadDto);
@@ -72,11 +72,11 @@ namespace PlatformService.Controllers
                 Console.WriteLine($"--> Error sending HTTP synchronous req : {e.Message}");
             }
 
-            // send async message
+            // send async rabbitmq message
             try
             {
                 var platformPublishedDto = _mapper.Map<PlatformPublishDto>(platformReadDto);
-                platformPublishedDto.Event = "Platform_Published";
+                platformPublishedDto.Event = "Platform_Published"; // kind of event being thrown in the bus
                 _messageBusClient.PublishNewPlatform(platformPublishedDto);
             }
             catch (Exception e)

@@ -12,7 +12,11 @@ public class CommandsProfile : Profile
         // source : entry value 
         // target : mapped/ formated value
         CreateMap<Platform, PlatformReadDto>();
+        CreateMap<CommandCreateDto, Command>();
         CreateMap<CommandReadDto, Command>();
+        CreateMap<Command, CommandReadDto>();
         CreateMap<Command, CommandCreateDto>();
+        CreateMap<PlatformPublishDto, Platform>() // Platform.ExternalId = PlatformPublishedDto.Id
+            .ForMember(dest => dest.ExternalId, opt => opt.MapFrom((src => src.Id)));
     }
 }

@@ -13,7 +13,9 @@ public class MessageBusClient : IMessageBusClient
 
     public MessageBusClient(IConfiguration configuration)
     {
+
         _configuration = configuration;
+        Console.WriteLine(_configuration["RabbitMqPort"]);
         var factory = new ConnectionFactory()
         {
             HostName = _configuration["RabbitMqHost"],
@@ -31,7 +33,7 @@ public class MessageBusClient : IMessageBusClient
         }
         catch (Exception e)
         {
-            Console.WriteLine($"--> Error connectong to the BUS: {e.Message}");
+            Console.WriteLine($"--> Error connecting to the BUS: {e.Message}");
         }
     }
 
@@ -42,7 +44,7 @@ public class MessageBusClient : IMessageBusClient
 
     private void SendMessage(string message)
     {
-        var msgBody = Encoding.UTF8.GetBytes(message);
+        var msgBody = Encoding.UTF8.GetBytes(message); // formatting message to bynary
         _channel.BasicPublish(
             exchange: "trigger",
             routingKey: "",
@@ -55,7 +57,7 @@ public class MessageBusClient : IMessageBusClient
     public void Dispose()
     {
         Console.WriteLine("--> Message bus disposed");
-        if(_channel.IsOpen)
+        if(_channel.IsOpen) // cleanup
         {
             _channel.Close();
             _connection.Close();
@@ -68,11 +70,11 @@ public class MessageBusClient : IMessageBusClient
 
         if (!_connection.IsOpen)
         {
-            Console.WriteLine("RabbitMq connection closed");
+            Console.WriteLine("--> RabbitMq connection closed");
             return;
         }
 
-        Console.WriteLine("RabbitMq connection OK, sending message...");
+        Console.WriteLine("--> RabbitMq connection OK, sending message");
         SendMessage(message);
     }
 }

@@ -105,3 +105,5 @@
 /home/filipe/Desktop/Projects/microservices/CommandService/obj/Debug/net8.0/CommandService.pdb
 /home/filipe/Desktop/Projects/microservices/CommandService/obj/Debug/net8.0/CommandService.genruntimeconfig.cache
 /home/filipe/Desktop/Projects/microservices/CommandService/obj/Debug/net8.0/ref/CommandService.dll
+/home/filipe/Desktop/Projects/microservices/CommandService/bin/Debug/net8.0/appsettings.Production.json
+/home/filipe/Desktop/Projects/microservices/CommandService/bin/Debug/net8.0/RabbitMQ.Client.dll

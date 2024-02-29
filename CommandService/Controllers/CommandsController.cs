@@ -57,17 +57,17 @@ public class CommandsController : ControllerBase
     }
     
     [HttpPost]
-    public ActionResult<CommandReadDto> CreateCommandForPlatform(int platId, CommandCreateDto commandDto)
+    public ActionResult<CommandReadDto> CreateCommandForPlatform(int platId, CommandCreateDto commandCreateDto)
     {
         Console.WriteLine($"--> Creating a new command for Platform {platId}");
-        Console.WriteLine($"--> Command : {commandDto.HowTo}");
+        Console.WriteLine($"--> Command : {commandCreateDto.HowTo}");
         
         if(!_repository.PlatformExists(platId))
         {
             return NotFound();
         }
         
-        var command = _mapper.Map<Command>(commandDto);
+        var command = _mapper.Map<Command>(commandCreateDto);
         
         _repository.CreateCommand(platId, command);
         _repository.SaveChanges();
