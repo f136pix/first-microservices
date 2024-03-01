@@ -28,8 +28,9 @@ public class MessageBusSubscriber : BackgroundService // singleton running durin
 
         _connection = factory.CreateConnection();
         _channel = _connection.CreateModel();
+
         _channel.ExchangeDeclare(exchange: "trigger", type: ExchangeType.Fanout);
-        _queueName = _channel.QueueDeclare().QueueName;
+        _queueName = _channel.QueueDeclare(queue: "asyncBus", durable: true, exclusive: false, autoDelete: false).QueueName;
         _channel.QueueBind(
             queue: _queueName,
             exchange: "trigger",

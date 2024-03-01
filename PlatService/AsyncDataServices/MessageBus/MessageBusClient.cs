@@ -28,6 +28,7 @@ public class MessageBusClient : IMessageBusClient
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
             _channel.ExchangeDeclare(exchange: "trigger", type: ExchangeType.Fanout);
+            _channel.QueueDeclare(queue: "asyncBus", durable: true, exclusive: false, autoDelete: false);
             _connection.ConnectionShutdown += RabbitMq_ConnectionShutdown; // on shutdown
             Console.WriteLine("--> Connected to RabbitMQ");
         }
