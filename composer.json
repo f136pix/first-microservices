@@ -1,6 +1,0 @@
-{
-    "require": {
-        "enqueue/laravel-queue": "^0.10.19",
-        "enqueue/fs": "^0.10.19"
-    }
-}
