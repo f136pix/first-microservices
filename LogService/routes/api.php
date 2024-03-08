@@ -1,7 +1,9 @@
 <?php
 
-use App\Http\Controllers\TestController;
+use App\Models\Command;
+use App\Models\Platform;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,4 +21,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('queue_test', [TestController::class, 'test']);
+Route::get('commands', function () {
+    return Platform::with('command')->get();  
+});

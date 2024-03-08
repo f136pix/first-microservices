@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PlatService")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8516bbe1be92309211f2d332accddc9a3b3aa8dc")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+88ade6792bd82145ee08bd5cb0951f47480c2e85")]
 [assembly: System.Reflection.AssemblyProductAttribute("PlatService")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PlatService")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

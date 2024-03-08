@@ -24,7 +24,12 @@ public class EventProcessor : IEventProcessor
         switch (eventType)
         {
             case EventType.PlatformPublished:
-                AddPlatform(msg);
+                var wasAdded = AddPlatform(msg);
+                // push added platform to rabbitmq
+                if (wasAdded)
+                {
+                    
+                }
                 break;
 
             default:
@@ -51,7 +56,7 @@ public class EventProcessor : IEventProcessor
     }
 
 
-    private void AddPlatform(string platformPublishedMessage)
+    private Boolean AddPlatform(string platformPublishedMessage)
     {
         using (var scope = _scopeFactory.CreateScope())
         {
@@ -65,15 +70,18 @@ public class EventProcessor : IEventProcessor
                 if (repo.ExternalPlatformExists(plat.ExternalId))
                 {
                     Console.WriteLine("--> Platform with this ExternalId already exists");
-                    return;
+                    return false;
                 }
                 repo.CreatePlatform(plat);
                 repo.SaveChanges();
-                Console.WriteLine("--> Platform was succefully saved");
+                Console.WriteLine("--> Platform was succefully saved, uploading to LogServiceBus");
+                
+                return true;
             }
             catch (Exception e)
             {
                 Console.WriteLine($"There was a error adding the Platform to the DB : {e.Message}");
+                return false;
             }
         }
     }
